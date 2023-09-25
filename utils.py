@@ -12,17 +12,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import inspect
-import textwrap
+# example/st_app.py
 
 import streamlit as st
+from streamlit_gsheets import GSheetsConnection
 
+url = "https://docs.google.com/spreadsheets/d/1RtFzgofq0fDR524zKxjNYishHvwJB5rwEINAvA7eg5g/edit?usp=sharing"
 
-def show_code(demo):
-    """Showing the code of the demo."""
-    show_code = st.sidebar.checkbox("Show code", True)
-    if show_code:
-        # Showing the code of the demo.
-        st.markdown("## Code")
-        sourcelines, _ = inspect.getsourcelines(demo)
-        st.code(textwrap.dedent("".join(sourcelines[1:])))
+conn = st.experimental_connection("gsheets", type=GSheetsConnection)
+
+data = conn.read(spreadsheet=url, usecols=[0, 1])
+st.dataframe(data)
