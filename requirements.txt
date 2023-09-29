@@ -3,3 +3,5 @@ numpy
 pandas
 pydeck
 streamlit
+google-auth==2.23.2
+gsheetsdb==0.1.13.1

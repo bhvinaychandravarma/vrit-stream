@@ -1,15 +1,33 @@
 import streamlit as st
-from streamlit_gsheets import GSheetsConnection
+import pandas as pd
+import gspread
+from oauth2client.service_account import ServiceAccountCredentials
 
-# Define the Google Sheets URL of your spreadsheet
-url = "https://docs.google.com/spreadsheets/d/1RtFzgofq0fDR524zKxjNYishHvwJB5rwEINAvA7eg5g/edit?usp=sharing"
+# Load the Google Sheets URL from the Streamlit secret
+sheet_url = st.secrets["public_gsheets_url"]
 
-# Connect to the Google Sheets document
-conn = st.experimental_connection("gsheets", type=GSheetsConnection)
+# Function to load data from Google Sheets
+@st.cache_data(ttl=600)
+def load_data(url):
+    try:
+        # Authenticate with Google Sheets using service account credentials
+        scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
+        creds = ServiceAccountCredentials.from_json_keyfile_dict(st.secrets["gcp_service_account"], scope)
+        gc = gspread.authorize(creds)
+        
+        # Open the Google Sheets document
+        sheet = gc.open_by_url(url)
+        
+        # Read the data from the first worksheet
+        worksheet = sheet.get_worksheet(0)
+        data = worksheet.get_all_records()
+        
+        return pd.DataFrame(data)
+    except Exception as e:
+        st.error(f"Error loading data: {e}")
 
-# Read data from the Google Sheets spreadsheet
-data = conn.read(spreadsheet=url, usecols=[0, 1])
+# Load and display the data from Google Sheets
+data = load_data(sheet_url)
 
-# Display the data in a DataFrame
 st.write("Data from Google Sheets:")
 st.dataframe(data)

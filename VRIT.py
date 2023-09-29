@@ -86,3 +86,19 @@ hour_to_filter = st.slider('hour', 0, 23, 17)  # min: 0h, max: 23h, default: 17h
 filtered_data = data[data[DATE_COLUMN].dt.hour == hour_to_filter]
 st.subheader(f'Map of all pickups at {hour_to_filter}:00')
 st.map(filtered_data)
+
+
+# ---------------------------
+# Code to extract the sheet id
+
+import streamlit as st
+
+# Load the sheet ID from the Streamlit secret
+sheet_url = st.secrets["public_gsheets_url"]
+
+# Extract the sheet ID from the URL
+sheet_id = sheet_url.split("/")[5]
+
+# Print the extracted sheet ID
+st.write(f"Sheet ID: {sheet_id}")
+# ---------------------------
