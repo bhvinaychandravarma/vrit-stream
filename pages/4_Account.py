@@ -7,7 +7,7 @@ from streamlit_gsheets import GSheetsConnection
 
 
 def account_public():
-    st.header('Show Pulic Sample Data')
+    st.header('Show Public Sample Data')
     # Public Google Sheet
     public_gsheets_url = "https://docs.google.com/spreadsheets/d/1JDy9md2VZPz4JbYtRPJLs81_3jUK47nx6GYQjgU8qNY/edit?usp=sharing"
     # Google Sheet Shared as "Anyone with a link"
@@ -20,7 +20,7 @@ def account_public():
 def account():
     st.header('Show Sample Data')
     conn = st.experimental_connection("gsheets", type=GSheetsConnection)
-    data = conn.read(worksheet="Account", usecols=[0, 1,2,3,4])
+    data = conn.read(worksheet="Account", usecols=list(range(2)))
     st.dataframe(data)    
 
 
