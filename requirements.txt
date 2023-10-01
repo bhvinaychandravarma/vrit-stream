@@ -5,3 +5,6 @@ pydeck
 streamlit
 google-auth==2.23.2
 gsheetsdb==0.1.13.1
+streamlit>=1.22.0
+pandasql  # this is for examples/ only
+st-gsheets-connection
