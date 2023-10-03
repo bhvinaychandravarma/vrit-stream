@@ -1,9 +1,13 @@
 import streamlit as st
 import pandas as pd
-import numpy as np
+import gspread
+from google.oauth2 import service_account
+from urllib.error import URLError
+from streamlit_gsheets import GSheetsConnection
 
 from streamlit_extras.app_logo import add_logo
 
+# ------------------------------------------------------
 # Always display the image without a checkbox
 image_url = "https://imgtr.ee/images/2023/09/22/e030c18384c9d684f0f26937bb337c59.jpeg"  # You can change this URL to your desired image
 add_logo(image_url)
@@ -46,7 +50,6 @@ st.markdown(
     """,
     unsafe_allow_html=True,
 )
-
 
 # Buttons to navigate to other pages displayed horizontally
 st.markdown('<div class="button-container">', unsafe_allow_html=True)
