@@ -4,7 +4,6 @@ import gspread
 from google.oauth2 import service_account
 from urllib.error import URLError
 from streamlit_gsheets import GSheetsConnection
-from streamlit_extras.app_logo import add_logo
 
 # ------------------------------------------------------
 
